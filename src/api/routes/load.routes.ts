@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { body } from 'express-validator';
 import { loadController } from '../controllers/loadController';
 import { validate } from '../middleware/validation';
+import { apiKeyAuth } from '../middleware/apiKeyAuth';
 import { isValidMCNumber, isValidLocation, isValidCommodityType } from '../../utils/validators';
 
 const router = Router();
@@ -9,10 +10,12 @@ const router = Router();
 /**
  * POST /api/load/assign-load
  * Assign best matching load to carrier
+ * Requires API key authentication
  * Note: Equipment types removed as FMCSA doesn't provide this data
  */
 router.post(
   '/assign-load',
+  apiKeyAuth,
   validate([
     body('mc_number')
       .notEmpty()
@@ -39,18 +42,22 @@ router.post(
 /**
  * GET /api/load/available
  * Get all available loads
+ * Requires API key authentication
  */
 router.get(
   '/available',
+  apiKeyAuth,
   (req, res, next) => loadController.getAvailableLoads(req, res, next)
 );
 
 /**
  * POST /api/load/create
  * Create a new load (for testing)
+ * Requires API key authentication
  */
 router.post(
   '/create',
+  apiKeyAuth,
   validate([
     body('origin').notEmpty().withMessage('Origin is required'),
     body('destination').notEmpty().withMessage('Destination is required'),

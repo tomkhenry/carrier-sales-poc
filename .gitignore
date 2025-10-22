@@ -64,11 +64,10 @@ tmp/
 temp/
 *.tmp
 
-# Optional: Database files (uncomment to exclude local database)
-# data/db.json
+# Database files (contains API keys)
+data/db.json
 
 # Docker
-.dockerignore
 docker-compose.override.yml
 
 # AWS and deployment secrets
@@ -76,6 +75,10 @@ docker-compose.override.yml
 *.pem
 *.key
 *.crt
+
+# Deployment scripts with actual API keys (use .template versions instead)
+scripts/update-ec2.sh
+scripts/deploy-to-ec2.sh
 
 # Misc
 .cache/

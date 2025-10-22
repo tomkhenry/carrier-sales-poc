@@ -44,6 +44,9 @@ COPY --from=builder /app/dist ./dist
 # Copy data directory (for db.json and mock data)
 COPY data ./data
 
+# Copy scripts directory (for management scripts)
+COPY scripts ./scripts
+
 # Create necessary directories and set permissions
 RUN mkdir -p logs && \
     chown -R nodejs:nodejs /app
