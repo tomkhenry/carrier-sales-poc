@@ -1,0 +1,86 @@
+{
+    "content": [
+        {
+            "_links": {
+                "basics": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics"
+                },
+                "cargo carried": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/cargo-carried"
+                },
+                "operation classification": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/operation-classification"
+                },
+                "docket numbers": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/docket-numbers"
+                },
+                "carrier active-For-hire authority": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/authority"
+                }
+            },
+            "carrier": {
+                "allowedToOperate": "Y",
+                "bipdInsuranceOnFile": "5000",
+                "bipdInsuranceRequired": "Y",
+                "bipdRequiredAmount": "5000",
+                "bondInsuranceOnFile": "0",
+                "bondInsuranceRequired": "Y",
+                "brokerAuthorityStatus": "I",
+                "cargoInsuranceOnFile": "0",
+                "cargoInsuranceRequired": "u",
+                "carrierOperation": {
+                    "carrierOperationCode": "A",
+                    "carrierOperationDesc": "Interstate"
+                },
+                "censusTypeId": {
+                    "censusType": "C",
+                    "censusTypeDesc": "CARRIER",
+                    "censusTypeId": 1
+                },
+                "commonAuthorityStatus": "A",
+                "contractAuthorityStatus": "A",
+                "crashTotal": 81,
+                "dbaName": "BOLT BUS",
+                "dotNumber": 44110,
+                "driverInsp": 734,
+                "driverOosInsp": 7,
+                "driverOosRate": 0.9536784741144414168937329700272479564033,
+                "driverOosRateNationalAverage": "5.51",
+                "ein": 860572343,
+                "fatalCrash": 5,
+                "hazmatInsp": 0,
+                "hazmatOosInsp": 0,
+                "hazmatOosRate": 0,
+                "hazmatOosRateNationalAverage": "4.5",
+                "injCrash": 38,
+                "isPassengerCarrier": null,
+                "issScore": null,
+                "legalName": "GREYHOUND LINES INC",
+                "mcs150Outdated": "N",
+                "oosDate": null,
+                "oosRateNationalAverageYear": "2009-2010",
+                "phyCity": "DALLAS",
+                "phyCountry": "US",
+                "phyState": "TX",
+                "phyStreet": "9773 HARRY HINES BLVD",
+                "phyZipcode": "75220",
+                "reviewDate": "2025-09-09",
+                "reviewType": "N",
+                "safetyRating": "S",
+                "safetyRatingDate": "2023-06-09",
+                "safetyReviewDate": "2025-09-09",
+                "safetyReviewType": "N",
+                "snapshotDate": null,
+                "statusCode": "A",
+                "totalDrivers": 1160,
+                "totalPowerUnits": 872,
+                "towawayCrash": 38,
+                "vehicleInsp": 329,
+                "vehicleOosInsp": 20,
+                "vehicleOosRate": 6.07902735562310030395136778115501519757,
+                "vehicleOosRateNationalAverage": "20.72"
+            }
+        }
+    ],
+    "retrievalDate": "2025-10-19T20:02:17.621+0000"
+}

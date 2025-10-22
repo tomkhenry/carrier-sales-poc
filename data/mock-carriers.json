@@ -1,0 +1,190 @@
+[
+  {
+    "mc_number": "123456",
+    "dot_number": "2345678",
+    "legal_name": "NATIONAL FREIGHT CARRIERS INC",
+    "dba_name": "NFC Express",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "N"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      1,
+      2,
+      3
+    ],
+    "insurance": {
+      "bipd_on_file": "750000",
+      "bipd_required": "750000",
+      "cargo_on_file": "100000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  },
+  {
+    "mc_number": "234567",
+    "dot_number": "3456789",
+    "legal_name": "REFRIGERATED TRANSPORT SOLUTIONS LLC",
+    "dba_name": "Cold Chain Express",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "N"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      23,
+      10,
+      18,
+      24
+    ],
+    "insurance": {
+      "bipd_on_file": "1000000",
+      "bipd_required": "750000",
+      "cargo_on_file": "250000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  },
+  {
+    "mc_number": "345678",
+    "dot_number": "4567890",
+    "legal_name": "HEAVY HAUL LOGISTICS CORP",
+    "dba_name": "HHL Flatbed Division",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "N"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      9,
+      7,
+      3,
+      28
+    ],
+    "insurance": {
+      "bipd_on_file": "1000000",
+      "bipd_required": "750000",
+      "cargo_on_file": "500000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  },
+  {
+    "mc_number": "456789",
+    "dot_number": "5678901",
+    "legal_name": "SPECIALIZED TANKER SERVICES INC",
+    "dba_name": "STS Liquid Transport",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "N"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      11,
+      21,
+      22
+    ],
+    "insurance": {
+      "bipd_on_file": "5000000",
+      "bipd_required": "750000",
+      "cargo_on_file": "1000000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  },
+  {
+    "mc_number": "567890",
+    "dot_number": "6789012",
+    "legal_name": "WEST COAST DRY VAN CARRIERS",
+    "dba_name": "WCDV Transport",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "N"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      1,
+      25,
+      6
+    ],
+    "insurance": {
+      "bipd_on_file": "750000",
+      "bipd_required": "750000",
+      "cargo_on_file": "100000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  },
+  {
+    "mc_number": "678901",
+    "dot_number": "7890123",
+    "legal_name": "PREMIUM HOUSEHOLD MOVERS LLC",
+    "dba_name": "Premium Movers",
+    "status_code": "A",
+    "allowed_to_operate": "Y",
+    "safety_rating": "S",
+    "authority": {
+      "common_authority_status": "A",
+      "contract_authority_status": "A",
+      "authorized_for_property": "Y",
+      "authorized_for_passenger": "N",
+      "authorized_for_household_goods": "Y"
+    },
+    "operation_classification": [
+      "Authorized For Hire"
+    ],
+    "cargo_carried": [
+      2,
+      1,
+      5
+    ],
+    "insurance": {
+      "bipd_on_file": "750000",
+      "bipd_required": "750000",
+      "cargo_on_file": "50000"
+    },
+    "last_verified": "2025-10-20T10:00:00Z",
+    "cached_at": "2025-10-20T10:00:00Z"
+  }
+]

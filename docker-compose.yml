@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: carrier-sales-api
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=${PORT:-3000}
+      - FMCSA_API_BASE_URL=${FMCSA_API_BASE_URL:-https://mobile.fmcsa.dot.gov/qc/services/carriers}
+      - FMCSA_API_TIMEOUT=${FMCSA_API_TIMEOUT:-10000}
+      - FMCSA_API_KEY=${FMCSA_API_KEY:-}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - CARRIER_CACHE_TTL=${CARRIER_CACHE_TTL:-86400}
+    volumes:
+      # Mount data directory for persistent storage
+      - ./data:/app/data
+      # Mount logs directory for persistent logs
+      - ./logs:/app/logs
+    networks:
+      - carrier-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+networks:
+  carrier-network:
+    driver: bridge
+
+volumes:
+  data:
+  logs:
+

@@ -1,0 +1,17 @@
+{
+    "content": [
+        {
+            "cargoClassDesc": "Passengers",
+            "id": {
+                "cargoClassId": 13,
+                "dotNumber": 44110
+            }
+        }
+    ],
+    "retrievalDate": "2025-10-19T20:05:38.719+0000",
+    "_links": {
+        "self": {
+            "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/cargo-carried"
+        }
+    }
+}

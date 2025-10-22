@@ -1,0 +1,17 @@
+{
+    "content": [
+        {
+            "id": {
+                "dotNumber": 44110,
+                "operationClassId": 1
+            },
+            "operationClassDesc": "Authorized For Hire"
+        }
+    ],
+    "retrievalDate": "2025-10-19T21:00:29.828+0000",
+    "_links": {
+        "self": {
+            "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/operation-classification"
+        }
+    }
+}

@@ -1,0 +1,74 @@
+{
+  "family": "carrier-sales-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::<account-id>:role/ecsTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "carrier-sales-api",
+      "image": "<aws_account_id>.dkr.ecr.<region>.amazonaws.com/carrier-sales-api:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "PORT",
+          "value": "3000"
+        },
+        {
+          "name": "FMCSA_API_BASE_URL",
+          "value": "https://mobile.fmcsa.dot.gov/qc/services/carriers"
+        },
+        {
+          "name": "FMCSA_API_TIMEOUT",
+          "value": "10000"
+        },
+        {
+          "name": "LOG_LEVEL",
+          "value": "info"
+        },
+        {
+          "name": "CARRIER_CACHE_TTL",
+          "value": "86400"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "FMCSA_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:<region>:<account-id>:secret:carrier-sales-api/fmcsa-api-key"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/carrier-sales-api",
+          "awslogs-region": "<region>",
+          "awslogs-stream-prefix": "ecs",
+          "awslogs-create-group": "true"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "node -e \"require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})\""
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 10
+      }
+    }
+  ]
+}
+

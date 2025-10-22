@@ -1,0 +1,155 @@
+{
+    "content": [
+        {
+            "basic": {
+                "basicsPercentile": "18%",
+                "basicsRunDate": "2017-01-27T05:00:00.000+0000",
+                "basicsType": {
+                    "basicsCode": "Unsafe Driving",
+                    "basicsCodeMcmis": null,
+                    "basicsId": 11,
+                    "basicsLongDesc": null,
+                    "basicsShortDesc": "Unsafe Driving"
+                },
+                "basicsViolationThreshold": "50",
+                "exceededFMCSAInterventionThreshold": "N",
+                "id": {
+                    "basicsId": 11,
+                    "dotNumber": 44110
+                },
+                "measureValue": "1.02",
+                "onRoadPerformanceThresholdViolationIndicator": "N",
+                "seriousViolationFromInvestigationPast12MonthIndicator": "N",
+                "totalInspectionWithViolation": 155,
+                "totalViolation": 170
+            },
+            "dotNumber": null,
+            "_links": {
+                "self": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/11"
+                }
+            }
+        },
+        {
+            "basic": {
+                "basicsPercentile": "57%",
+                "basicsRunDate": "2017-01-27T05:00:00.000+0000",
+                "basicsType": {
+                    "basicsCode": "HOS Compliance",
+                    "basicsCodeMcmis": null,
+                    "basicsId": 12,
+                    "basicsLongDesc": null,
+                    "basicsShortDesc": "Hours-of-Service Compliance"
+                },
+                "basicsViolationThreshold": "50",
+                "exceededFMCSAInterventionThreshold": "Y",
+                "id": {
+                    "basicsId": 12,
+                    "dotNumber": 44110
+                },
+                "measureValue": "0.18",
+                "onRoadPerformanceThresholdViolationIndicator": "Y",
+                "seriousViolationFromInvestigationPast12MonthIndicator": "N",
+                "totalInspectionWithViolation": 106,
+                "totalViolation": 119
+            },
+            "dotNumber": null,
+            "_links": {
+                "self": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/12"
+                }
+            }
+        },
+        {
+            "basic": {
+                "basicsPercentile": "28%",
+                "basicsRunDate": "2017-01-27T05:00:00.000+0000",
+                "basicsType": {
+                    "basicsCode": "Driver Fitness",
+                    "basicsCodeMcmis": null,
+                    "basicsId": 13,
+                    "basicsLongDesc": null,
+                    "basicsShortDesc": "Driver Fitness"
+                },
+                "basicsViolationThreshold": "65",
+                "exceededFMCSAInterventionThreshold": "N",
+                "id": {
+                    "basicsId": 13,
+                    "dotNumber": 44110
+                },
+                "measureValue": "0.03",
+                "onRoadPerformanceThresholdViolationIndicator": "N",
+                "seriousViolationFromInvestigationPast12MonthIndicator": "N",
+                "totalInspectionWithViolation": 13,
+                "totalViolation": 14
+            },
+            "dotNumber": null,
+            "_links": {
+                "self": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/13"
+                }
+            }
+        },
+        {
+            "basic": {
+                "basicsPercentile": "0%",
+                "basicsRunDate": "2017-01-27T05:00:00.000+0000",
+                "basicsType": {
+                    "basicsCode": "Drugs/Alcohol",
+                    "basicsCodeMcmis": null,
+                    "basicsId": 14,
+                    "basicsLongDesc": null,
+                    "basicsShortDesc": "Controlled Substances/&#8203;Alcohol"
+                },
+                "basicsViolationThreshold": "65",
+                "exceededFMCSAInterventionThreshold": "N",
+                "id": {
+                    "basicsId": 14,
+                    "dotNumber": 44110
+                },
+                "measureValue": "0",
+                "onRoadPerformanceThresholdViolationIndicator": "N",
+                "seriousViolationFromInvestigationPast12MonthIndicator": "N",
+                "totalInspectionWithViolation": 0,
+                "totalViolation": 0
+            },
+            "dotNumber": null,
+            "_links": {
+                "self": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/14"
+                }
+            }
+        },
+        {
+            "basic": {
+                "basicsPercentile": "19%",
+                "basicsRunDate": "2017-01-27T05:00:00.000+0000",
+                "basicsType": {
+                    "basicsCode": "Vehicle Maint.",
+                    "basicsCodeMcmis": null,
+                    "basicsId": 15,
+                    "basicsLongDesc": null,
+                    "basicsShortDesc": "Vehicle Maintenance"
+                },
+                "basicsViolationThreshold": "65",
+                "exceededFMCSAInterventionThreshold": "N",
+                "id": {
+                    "basicsId": 15,
+                    "dotNumber": 44110
+                },
+                "measureValue": "1.37",
+                "onRoadPerformanceThresholdViolationIndicator": "N",
+                "seriousViolationFromInvestigationPast12MonthIndicator": "N",
+                "totalInspectionWithViolation": 381,
+                "totalViolation": 611
+            },
+            "dotNumber": null,
+            "_links": {
+                "self": {
+                    "href": "https://mobile.fmcsa.dot.gov/qc/services/carriers/44110/basics/15"
+                }
+            }
+        }
+    ],
+    "retrievalDate": "2025-10-19T20:09:09.691+0000"
+}
