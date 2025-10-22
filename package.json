@@ -12,6 +12,7 @@
     "start": "node dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clear-db": "node scripts/clear-db.js",
+    "clear-db-keep-keys": "node scripts/clear-db-preserve-keys.js",
     "load-mock-data": "node scripts/load-mock-data.js",
     "load-mock-carriers": "node scripts/load-mock-carriers.js",
     "docker:build": "docker build -t carrier-sales-api:latest .",

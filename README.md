@@ -149,6 +149,50 @@ This API is designed to be deployed on AWS EC2 using Docker images from Amazon E
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions.
 
+## API Authentication
+
+All API endpoints require authentication using API keys. API keys are managed locally in `data/db.json`.
+
+### Generate an API Key
+
+```bash
+node scripts/generate-api-key.js
+```
+
+Example output:
+```
+✅ API key created successfully!
+🔑 API Key: ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH
+📝 Name: Production API Key
+📅 Created: 2025-10-22T01:33:02.397Z
+```
+
+### Use the API Key
+
+Include the API key in your requests using either:
+
+**Header (recommended):**
+```bash
+curl -H "X-API-Key: ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH" \
+  http://localhost:3000/api/carrier/verify-carrier
+```
+
+**Authorization Bearer:**
+```bash
+curl -H "Authorization: Bearer ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH" \
+  http://localhost:3000/api/carrier/verify-carrier
+```
+
+### Manage API Keys
+
+```bash
+# List all API keys
+node scripts/list-api-keys.js
+
+# Revoke an API key
+node scripts/revoke-api-key.js
+```
+
 ## API Endpoints
 
 ### Health Check
