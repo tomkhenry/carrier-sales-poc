@@ -69,9 +69,9 @@ else
 fi
 echo ""
 
-# Step 2: Build Docker image
-echo -e "${YELLOW}Step 2: Building Docker image...${NC}"
-docker build -t ${APP_NAME}:${IMAGE_TAG} .
+# Step 2: Build Docker image for AMD64 (EC2 architecture)
+echo -e "${YELLOW}Step 2: Building Docker image for linux/amd64...${NC}"
+docker build --platform linux/amd64 -t ${APP_NAME}:${IMAGE_TAG} .
 echo -e "${GREEN}✓ Docker image built${NC}"
 echo ""
 
@@ -213,6 +213,10 @@ docker run -d \
   -e NODE_ENV=production \
   -e PORT=3000 \
   -e LOG_LEVEL=info \
+  -e FMCSA_API_KEY=YOUR_FMCSA_API_KEY_HERE \
+  -e FMCSA_API_BASE_URL=https://mobile.fmcsa.dot.gov/qc/services/carriers \
+  -e FMCSA_API_TIMEOUT=10000 \
+  -e CARRIER_CACHE_TTL=86400 \
   ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}
 
 echo "Carrier Sales API deployed successfully!"

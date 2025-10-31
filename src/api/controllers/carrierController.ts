@@ -5,6 +5,8 @@ import { logger } from '../../utils/logger';
 import { AppError } from '../middleware/errorHandler';
 import { normalizeMCNumber } from '../../utils/validators';
 import { VerifyCarrierResponseDTO, ValidationDetails } from '../../models/dtos/VerifyCarrierResponseDTO';
+import * as fs from 'fs';
+import * as path from 'path';
 
 /**
  * Carrier Controller
@@ -113,6 +115,44 @@ export class CarrierController {
       
       res.status(200).json(response);
     } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * GET /api/carrier/list
+   * Get mock carriers for dashboard filters
+   * 
+   * Returns a consistent list of mock carriers that match the carriers
+   * referenced in the mock metrics data
+   * 
+   * @returns Array of carriers with basic info
+   */
+  async getAllCarriers(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      logger.info('Fetching mock carriers for dashboard filters');
+      
+      // Load mock carriers from JSON file
+      const mockCarriersPath = path.join(__dirname, '../../..', 'data', 'mock-carriers-for-filters.json');
+      
+      let carrierList: any[] = [];
+      
+      try {
+        const mockData = fs.readFileSync(mockCarriersPath, 'utf-8');
+        carrierList = JSON.parse(mockData);
+        logger.info(`Loaded ${carrierList.length} mock carriers for filters`);
+      } catch (fileError) {
+        logger.warn('Mock carriers file not found, returning empty list', fileError);
+        // Return empty array if file doesn't exist (graceful degradation)
+        carrierList = [];
+      }
+      
+      res.status(200).json({
+        success: true,
+        data: carrierList,
+      });
+    } catch (error) {
+      logger.error('Error fetching carriers:', error);
       next(error);
     }
   }

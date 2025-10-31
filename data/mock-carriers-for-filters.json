@@ -1,0 +1,73 @@
+[
+  {
+    "id": "MC-123456",
+    "mc_number": "MC-123456",
+    "dot_number": "2345678",
+    "legal_name": "Swift Transportation",
+    "dba_name": "Swift Freight"
+  },
+  {
+    "id": "MC-234567",
+    "mc_number": "MC-234567",
+    "dot_number": "3456789",
+    "legal_name": "JB Hunt Transport",
+    "dba_name": "JB Hunt"
+  },
+  {
+    "id": "MC-345678",
+    "mc_number": "MC-345678",
+    "dot_number": "4567890",
+    "legal_name": "Schneider National",
+    "dba_name": "Schneider"
+  },
+  {
+    "id": "MC-456789",
+    "mc_number": "MC-456789",
+    "dot_number": "5678901",
+    "legal_name": "Werner Enterprises",
+    "dba_name": "Werner"
+  },
+  {
+    "id": "MC-567890",
+    "mc_number": "MC-567890",
+    "dot_number": "6789012",
+    "legal_name": "Prime Inc",
+    "dba_name": "Prime"
+  },
+  {
+    "id": "MC-678901",
+    "mc_number": "MC-678901",
+    "dot_number": "7890123",
+    "legal_name": "National Freight Carriers Inc",
+    "dba_name": "NFC Express"
+  },
+  {
+    "id": "MC-789012",
+    "mc_number": "MC-789012",
+    "dot_number": "8901234",
+    "legal_name": "Refrigerated Transport Solutions LLC",
+    "dba_name": "Cold Chain Express"
+  },
+  {
+    "id": "MC-890123",
+    "mc_number": "MC-890123",
+    "dot_number": "9012345",
+    "legal_name": "Heavy Haul Logistics Corp",
+    "dba_name": "HHL Flatbed"
+  },
+  {
+    "id": "MC-901234",
+    "mc_number": "MC-901234",
+    "dot_number": "1234509",
+    "legal_name": "Specialized Tanker Services Inc",
+    "dba_name": "STS Liquid"
+  },
+  {
+    "id": "MC-012345",
+    "mc_number": "MC-012345",
+    "dot_number": "2345610",
+    "legal_name": "West Coast Dry Van Carriers",
+    "dba_name": "WCDV Transport"
+  }
+]
+

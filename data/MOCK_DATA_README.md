@@ -4,8 +4,8 @@ This directory contains mock data for testing the Inbound Carrier Sales Automati
 
 ## Available Mock Data
 
-### Mock Carriers (`mock-carriers.json`)
-6 carriers with diverse cargo capabilities:
+### Mock Carriers for API Testing (`mock-carriers.json`)
+6 carriers with diverse cargo capabilities for use with `/api/load/assign-load` and `/api/carrier/verify-carrier`:
 
 | MC Number | Company Name | Cargo Types |
 |-----------|--------------|-------------|

@@ -8,6 +8,16 @@ import { isValidMCNumber } from '../../utils/validators';
 const router = Router();
 
 /**
+ * GET /api/carrier/list
+ * Get all cached carriers
+ * Public endpoint for dashboard filters
+ */
+router.get(
+  '/list',
+  (req, res, next) => carrierController.getAllCarriers(req, res, next)
+);
+
+/**
  * POST /api/carrier/verify-carrier
  * Verify carrier eligibility
  * Requires API key authentication

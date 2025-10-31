@@ -103,6 +103,21 @@ export class CarrierService {
     const carrier = await this.findByMC(mcNumber);
     return carrier ? carrier.dot_number : null;
   }
+
+  /**
+   * Get all cached carriers
+   */
+  async getAllCarriers(): Promise<CarrierDTO[]> {
+    try {
+      const db = await dbService.getDb();
+      await db.read();
+      
+      return db.data.carriers || [];
+    } catch (error: any) {
+      logger.error('Error fetching all carriers:', error);
+      throw error;
+    }
+  }
 }
 
 // Export singleton instance
