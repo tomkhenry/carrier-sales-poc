@@ -1,230 +1,265 @@
 # Deployment Guide
 
-This guide covers deploying the Carrier Sales API to AWS EC2 using Docker images from Amazon ECR.
+Deploy the Carrier Sales API to AWS EC2 in minutes using our automated scripts.
+
+## Quick Start
+
+**First deployment:**
+```bash
+# 1. Configure your API key (one-time setup)
+cp scripts/deploy-to-ec2.sh.template scripts/deploy-to-ec2.sh
+cp scripts/update-ec2.sh.template scripts/update-ec2.sh
+chmod +x scripts/*.sh
+# Edit both scripts and replace YOUR_FMCSA_API_KEY_HERE with your actual key
+
+# 2. Deploy
+./scripts/deploy-to-ec2.sh
+```
+
+**Update existing deployment:**
+```bash
+./scripts/update-ec2.sh
+```
+
+That's it! The scripts handle everything automatically.
+
+---
 
 ## Prerequisites
 
-- AWS CLI configured (`aws configure`)
-- Docker installed locally
-- ECR repository created
-- EC2 instance running with Docker installed
+Ensure you have these installed and configured:
 
-## Automated Deployment
+- **AWS CLI** configured (`aws configure`)
+- **Docker** installed locally  
+- **FMCSA API Key** for carrier verification
+- **SSH Key Pair** in AWS EC2 (default name: `carrier-api-key`)
 
-Use the automated script for quick deployment:
+**Don't have an SSH key pair?**
+```bash
+aws ec2 create-key-pair --key-name carrier-api-key \
+  --query 'KeyMaterial' --output text > carrier-api-key.pem
+chmod 400 carrier-api-key.pem
+```
+
+## Initial Setup (One-Time)
+
+### Configure Your API Key
+
+```bash
+# 1. Copy template files
+cp scripts/deploy-to-ec2.sh.template scripts/deploy-to-ec2.sh
+cp scripts/update-ec2.sh.template scripts/update-ec2.sh
+chmod +x scripts/*.sh
+
+# 2. Edit both scripts and replace YOUR_FMCSA_API_KEY_HERE with your actual key
+#    - Line 216 in deploy-to-ec2.sh
+#    - Line 167 in update-ec2.sh
+```
+
+> 🔒 **Note:** These scripts are `.gitignore`d to protect your API key.
+
+### Optional: Customize Deployment
+
+Set these environment variables to customize your deployment:
+
+```bash
+export AWS_REGION=us-east-1              # Default: us-east-1
+export EC2_INSTANCE_TYPE=t3.small        # Default: t3.small
+export KEY_NAME=carrier-api-key          # Default: carrier-api-key
+```
+
+---
+
+## Deployment Scripts
+
+### 🚀 First Time Deployment
 
 ```bash
 ./scripts/deploy-to-ec2.sh
 ```
 
-This script will:
-- Create ECR repository (if needed)
-- Build your Docker image
-- Push to ECR
-- Set up security groups and IAM roles
-- Launch and configure an EC2 instance
-- Pull and run the container automatically
+This script automatically:
+- ✅ Creates ECR repository
+- ✅ Builds and pushes Docker image
+- ✅ Sets up security groups and IAM roles
+- ✅ Launches EC2 instance (t3.small)
+- ✅ Installs and starts the container
 
-## Manual Deployment
-
-If your ECR repository and EC2 instance are already set up, follow these steps to deploy updates:
-
-### 1. Build and Push to ECR
-
-Build your Docker image locally and push it to Amazon ECR:
-
-```bash
-# Set your AWS variables
-export AWS_REGION=us-east-1
-export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-export ECR_REPOSITORY=carrier-sales-api
-
-# Login to ECR
-aws ecr get-login-password --region ${AWS_REGION} | \
-  docker login --username AWS --password-stdin \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-
-# Build the image
-docker build -t carrier-sales-api:latest .
-
-# Tag for ECR
-docker tag carrier-sales-api:latest \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
-
-# Push to ECR
-docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+**Output:**
+```
+Deployment Complete!
+Instance ID: i-0123456789abcdef0
+Public IP: 3.87.123.45
+API URL: http://3.87.123.45:3000
 ```
 
-### 2. Pull and Run on EC2
-
-SSH into your EC2 instance and pull the latest image:
-
+Wait 2-3 minutes for the container to start, then test:
 ```bash
-# SSH into your EC2 instance
-ssh -i your-key.pem ec2-user@<EC2_PUBLIC_IP>
-
-# Set AWS variables on EC2
-export AWS_REGION=us-east-1
-export AWS_ACCOUNT_ID=<your-account-id>
-export ECR_REPOSITORY=carrier-sales-api
-
-# Login to ECR from EC2
-aws ecr get-login-password --region ${AWS_REGION} | \
-  docker login --username AWS --password-stdin \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-
-# Pull the latest image
-docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
-
-# Stop and remove old container (if running)
-docker stop carrier-sales-api 2>/dev/null || true
-docker rm carrier-sales-api 2>/dev/null || true
-
-# Run the new container with FMCSA API key
-docker run -d \
-  --name carrier-sales-api \
-  --restart unless-stopped \
-  -p 3000:3000 \
-  -e NODE_ENV=production \
-  -e PORT=3000 \
-  -e LOG_LEVEL=info \
-  -e FMCSA_API_KEY=<your-fmcsa-api-key> \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+curl http://3.87.123.45:3000/health
 ```
 
-**Important:** Replace `<your-fmcsa-api-key>` with your actual FMCSA API key. Never commit this key to version control.
+### 🔄 Update Existing Deployment
 
-### 3. Verify Deployment
+```bash
+./scripts/update-ec2.sh
+```
 
-Test that the API is running:
+Builds your latest code and deploys it to EC2. The script auto-detects your instance or you can specify:
+
+```bash
+EC2_HOST=3.87.123.45 KEY_PATH=~/my-key.pem ./scripts/update-ec2.sh
+```
+
+---
+
+## Managing Your Deployment
+
+### Find Your Instance
+
+```bash
+aws ec2 describe-instances \
+  --filters "Name=tag:Application,Values=carrier-sales-api" \
+            "Name=instance-state-name,Values=running" \
+  --query 'Reservations[0].Instances[0].[InstanceId,PublicIpAddress]' \
+  --output table
+```
+
+### View Logs
 
 ```bash
 # From your local machine
-curl http://<EC2_PUBLIC_IP>:3000/health
+ssh -i carrier-api-key.pem ec2-user@<EC2_IP> 'docker logs -f carrier-sales-api'
 
-# Expected response:
-# {
-#   "success": true,
-#   "message": "Inbound Carrier Sales Automation API is running",
-#   "timestamp": "...",
-#   "environment": "production"
-# }
-```
-
-## Environment Variables
-
-When running the container, you can configure these environment variables:
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `NODE_ENV` | Yes | Set to `production` |
-| `PORT` | Yes | API port (default: 3000) |
-| `FMCSA_API_KEY` | Yes | Your FMCSA API key for carrier verification |
-| `LOG_LEVEL` | No | Logging level: debug, info, warn, error (default: info) |
-| `FMCSA_API_BASE_URL` | No | FMCSA API endpoint (default: https://mobile.fmcsa.dot.gov/qc/services/carriers) |
-| `FMCSA_API_TIMEOUT` | No | API timeout in ms (default: 10000) |
-| `CARRIER_CACHE_TTL` | No | Cache duration in seconds (default: 86400) |
-
-## Viewing Logs
-
-Check container logs on your EC2 instance:
-
-```bash
-# View logs
-docker logs carrier-sales-api
-
-# Follow logs in real-time
+# Or SSH in first
+ssh -i carrier-api-key.pem ec2-user@<EC2_IP>
 docker logs -f carrier-sales-api
-
-# View last 100 lines
-docker logs --tail 100 carrier-sales-api
 ```
 
-## Managing the Container
+### 📊 Manage Data on EC2
 
-Common Docker commands for managing your deployment:
+Use the `ec2-manage-data.sh` script to manage your production database:
 
 ```bash
-# Check container status
-docker ps
+# Check database status
+EC2_HOST=<ec2-ip> ./scripts/ec2-manage-data.sh status
 
-# Stop the container
-docker stop carrier-sales-api
+# Clear data (keeps API keys)
+EC2_HOST=<ec2-ip> ./scripts/ec2-manage-data.sh clear
 
-# Start the container
-docker start carrier-sales-api
-
-# Restart the container
-docker restart carrier-sales-api
-
-# Remove the container
-docker rm carrier-sales-api
-
-# View container resource usage
-docker stats carrier-sales-api
+# Load mock data for testing
+EC2_HOST=<ec2-ip> ./scripts/ec2-manage-data.sh load
 ```
 
-## Troubleshooting
+The script auto-detects your instance if you have AWS CLI configured.
 
-### Container won't start
+---
 
-Check the logs for errors:
+## Configuration
+
+### Environment Variables
+
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `NODE_ENV` | Yes | - | Set to `production` |
+| `PORT` | Yes | 3000 | API server port |
+| `FMCSA_API_KEY` | Yes | - | Your FMCSA API key |
+| `LOG_LEVEL` | No | info | `debug`, `info`, `warn`, `error` |
+
+### AWS Resources Created
+
+The deployment script creates:
+- **ECR Repository**: `carrier-sales-api`
+- **Security Group**: `carrier-api-sg` (ports 3000, 22)
+- **IAM Role**: `carrier-sales-api-ec2-role`
+- **EC2 Instance**: `t3.small` with tag `Application=carrier-sales-api`
+
+
+Common issues: Missing `FMCSA_API_KEY`, port 3000 in use, or incorrect image path.
+
+### API Not Responding
+
 ```bash
-docker logs carrier-sales-api
-```
-
-Common issues:
-- Missing FMCSA_API_KEY environment variable
-- Port 3000 already in use
-- Incorrect ECR image path
-
-### Cannot pull from ECR
-
-Ensure your EC2 instance has the correct IAM role with `AmazonEC2ContainerRegistryReadOnly` policy attached.
-
-Re-authenticate with ECR:
-```bash
-aws ecr get-login-password --region ${AWS_REGION} | \
-  docker login --username AWS --password-stdin \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-```
-
-### API not responding
-
-Check if the container is running:
-```bash
-docker ps | grep carrier-sales-api
-```
-
-Check security group allows inbound traffic on port 3000.
-
-Test locally on EC2:
-```bash
+# Test from EC2
 curl http://localhost:3000/health
+
+# Test from local
+curl http://<EC2_IP>:3000/health
 ```
+
+If local works but remote doesn't, check security group allows port 3000:
+```bash
+aws ec2 describe-security-groups --group-names carrier-api-sg
+```
+
+### Cannot Pull from ECR
+
+Re-authenticate on EC2:
+```bash
+aws ecr get-login-password --region us-east-1 | \
+  docker login --username AWS --password-stdin \
+  $(aws sts get-caller-identity --query Account --output text).dkr.ecr.us-east-1.amazonaws.com
+```
+
+### Update Script Can't Find Instance
+
+Manually specify the instance:
+```bash
+EC2_HOST=<your-ip> KEY_PATH=<your-key.pem> ./scripts/update-ec2.sh
+```
+
+---
+
+## Cleanup
+
+To terminate the deployment and delete all resources:
+
+```bash
+# Terminate instance
+INSTANCE_ID=$(aws ec2 describe-instances \
+  --filters "Name=tag:Application,Values=carrier-sales-api" \
+            "Name=instance-state-name,Values=running" \
+  --query 'Reservations[0].Instances[0].InstanceId' \
+  --output text)
+aws ec2 terminate-instances --instance-ids ${INSTANCE_ID}
+
+# Wait for termination, then clean up
+aws ec2 wait instance-terminated --instance-ids ${INSTANCE_ID}
+aws ec2 delete-security-group --group-name carrier-api-sg
+aws ecr delete-repository --repository-name carrier-sales-api --force
+```
+
+Delete IAM role manually in AWS Console or see [detailed cleanup steps](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_manage_delete.html).
+
+---
 
 ## Quick Reference
 
-**Update deployment:**
 ```bash
-# Local: Build and push
-docker build -t carrier-sales-api:latest .
-docker tag carrier-sales-api:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
-docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+# Deploy
+./scripts/deploy-to-ec2.sh
 
-# EC2: Pull and restart
-ssh -i your-key.pem ec2-user@<EC2_PUBLIC_IP>
-docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
-docker stop carrier-sales-api && docker rm carrier-sales-api
-docker run -d --name carrier-sales-api --restart unless-stopped -p 3000:3000 \
-  -e NODE_ENV=production -e PORT=3000 -e FMCSA_API_KEY=<your-key> \
-  ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPOSITORY}:latest
+# Update
+./scripts/update-ec2.sh
+
+# Manage data
+EC2_HOST=<ip> ./scripts/ec2-manage-data.sh status|clear|load
+
+# View logs
+ssh -i carrier-api-key.pem ec2-user@<IP> 'docker logs -f carrier-sales-api'
+
+# Find instance
+aws ec2 describe-instances \
+  --filters "Name=tag:Application,Values=carrier-sales-api" \
+            "Name=instance-state-name,Values=running" \
+  --query 'Reservations[0].Instances[0].[InstanceId,PublicIpAddress]' \
+  --output table
 ```
+
+---
 
 ## Additional Resources
 
-- [Main Documentation](./README.md)
-- [Docker Documentation](https://docs.docker.com/)
-- [AWS ECR Documentation](https://docs.aws.amazon.com/ecr/)
-- [AWS EC2 Documentation](https://docs.aws.amazon.com/ec2/)
+- [README - Main Documentation](./README.md)
+- [API Reference](./docs/API_REFERENCE.md)
+- [Scripts Documentation](./scripts/README.md)
 

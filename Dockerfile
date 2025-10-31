@@ -1,6 +1,6 @@
 # Multi-stage build for production optimization
-# Stage 1: Build
-FROM node:20-alpine AS builder
+# Stage 1: Build Backend
+FROM node:20-alpine AS backend-builder
 
 # Set working directory
 WORKDIR /app
@@ -16,9 +16,27 @@ RUN npm ci
 COPY src ./src
 
 # Build TypeScript to JavaScript
+RUN npm run build:backend
+
+# Stage 2: Build Frontend
+FROM node:20-alpine AS frontend-builder
+
+# Set working directory
+WORKDIR /app/frontend
+
+# Copy frontend package files
+COPY frontend/package*.json ./
+
+# Install frontend dependencies
+RUN npm ci
+
+# Copy frontend source code
+COPY frontend ./
+
+# Build frontend
 RUN npm run build
 
-# Stage 2: Production
+# Stage 3: Production
 FROM node:20-alpine AS production
 
 # Install dumb-init for proper signal handling
@@ -38,8 +56,11 @@ COPY package*.json ./
 RUN npm ci --only=production && \
     npm cache clean --force
 
-# Copy built application from builder stage
-COPY --from=builder /app/dist ./dist
+# Copy built backend from backend-builder stage
+COPY --from=backend-builder /app/dist ./dist
+
+# Copy built frontend from frontend-builder stage
+COPY --from=frontend-builder /app/frontend/dist ./dist/public
 
 # Copy data directory (for db.json and mock data)
 COPY data ./data

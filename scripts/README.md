@@ -31,6 +31,17 @@ Run these with `npm run <script-name>`:
 - **`load-mock-data`** - Loads mock loads from `data/mock-loads.json`
 - **`load-mock-carriers`** - Loads mock carriers from `data/mock-carriers.json`
 
+## Dashboard Metrics Data
+
+- **`generate-mock-metrics.js`** - Generate a week's worth of mock metrics data for the dashboard
+  ```bash
+  node scripts/generate-mock-metrics.js
+  ```
+  - Creates realistic carrier validations, load assignments, and load offers
+  - Data is stored in `data/mock-metrics-data.json` (separate from `db.json`)
+  - Used by the dashboard for consistent, filterable analytics
+  - See `data/MOCK_METRICS_README.md` for more details
+
 ## API Key Management
 
 - **`generate-api-key.js`** - Generate a new API key

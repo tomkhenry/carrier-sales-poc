@@ -10,45 +10,31 @@ This POC API determines which loads best fit a carrier given carrier and load in
 
 - ✅ **Carrier Verification**: Validate carriers against FMCSA API (MC→DOT lookup, authority, operation classification)
 - ✅ **Load Matching**: Match carriers with loads using FMCSA cargo data and intelligent algorithms
+- ✅ **Analytics Dashboard**: Modern React-based dashboard for business insights and performance tracking
 - ✅ **Caching**: 24-hour cache for carrier data to minimize API calls
 - ✅ **File-based Storage**: Uses lowdb for rapid POC development
 
 ## Project Structure
 
 ```
-src/
-├── api/
-│   ├── routes/              # Express routes
-│   │   ├── carrier.routes.ts
-│   │   └── load.routes.ts
-│   ├── controllers/         # Request handlers
-│   │   ├── carrierController.ts
-│   │   └── loadController.ts
-│   └── middleware/          # Express middleware
-│       ├── errorHandler.ts
-│       ├── validation.ts
-│       └── requestLogger.ts
-├── models/
-│   ├── dtos/               # Data Transfer Objects
-│   │   ├── LoadDTO.ts
-│   │   ├── CarrierDTO.ts
-│   │   └── MetricsDTO.ts
-│   └── entities/           # Business logic entities
-│       ├── Load.ts
-│       └── Carrier.ts
-├── services/               # Business logic layer
-│   ├── fmcsaService.ts    # FMCSA API integration
-│   ├── carrierService.ts  # Carrier operations
-│   └── loadService.ts     # Load operations
-├── utils/                  # Helper utilities
-│   ├── fileStorage.ts     # lowdb database
-│   ├── logger.ts          # Logging utility
-│   ├── validators.ts      # Validation helpers
-│   └── matchingAlgorithm.ts  # Load matching logic
-├── config/                 # Configuration
-│   ├── app.config.ts
-│   └── storage.config.ts
-└── app.ts                  # Express app entry point
+InboundCarrierSalesAutomation/
+├── src/                    # Backend (TypeScript)
+│   ├── api/               # Routes, controllers, middleware
+│   ├── services/          # Business logic (FMCSA, carriers, loads, metrics)
+│   ├── models/            # DTOs and entities
+│   ├── utils/             # Helpers (storage, matching, validation)
+│   └── config/            # Configuration files
+│
+├── frontend/              # React Dashboard (TypeScript)
+│   ├── src/
+│   │   ├── components/   # Dashboard, Sidebar, metrics views
+│   │   ├── services/     # API integration
+│   │   └── types/        # TypeScript interfaces
+│   └── dist/             # Build output
+│
+├── data/                  # lowdb storage & mock data
+├── scripts/               # Utility scripts (API keys, deployment, mock data)
+└── dist/                  # Production build (backend + frontend)
 ```
 
 ## Installation
@@ -85,17 +71,47 @@ src/
 ## Running the Application
 
 ### Development Mode
+
+**Backend only:**
 ```bash
 npm run dev
 ```
 
 The server will start on `http://localhost:3000` with hot-reload enabled.
 
+**With Dashboard (Development):**
+
+Terminal 1 - Start backend:
+```bash
+npm run dev
+```
+
+Terminal 2 - Start frontend dev server:
+```bash
+cd frontend
+npm run dev
+```
+
+Frontend dev server runs on `http://localhost:5173` with proxy to backend API.
+
 ### Production Mode
+
+**Build everything:**
 ```bash
 npm run build
+```
+
+This will:
+1. Compile TypeScript backend to `dist/`
+2. Build React frontend with Vite
+3. Copy frontend build to `dist/public/`
+
+**Start production server:**
+```bash
 npm start
 ```
+
+Access the dashboard at `http://localhost:3000/dashboard`
 
 ### Docker
 
@@ -162,7 +178,7 @@ node scripts/generate-api-key.js
 Example output:
 ```
 ✅ API key created successfully!
-🔑 API Key: ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH
+🔑 API Key: ics_live_xxxxxxxxxxxx
 📝 Name: Production API Key
 📅 Created: 2025-10-22T01:33:02.397Z
 ```
@@ -173,13 +189,13 @@ Include the API key in your requests using either:
 
 **Header (recommended):**
 ```bash
-curl -H "X-API-Key: ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH" \
+curl -H "X-API-Key: ics_live_xxxxxxxxxxxxx" \
   http://localhost:3000/api/carrier/verify-carrier
 ```
 
 **Authorization Bearer:**
 ```bash
-curl -H "Authorization: Bearer ics_live_kxVKOMHJXycfqp6dzwC1A3SfkNWEvDH" \
+curl -H "Authorization: Bearer ics_live_xxxxxxxxxxxxx" \
   http://localhost:3000/api/carrier/verify-carrier
 ```
 
@@ -193,7 +209,75 @@ node scripts/list-api-keys.js
 node scripts/revoke-api-key.js
 ```
 
+## Frontend Dashboard
+
+Modern React-based analytics dashboard for monitoring carrier sales performance and load matching efficiency.
+
+### Quick Start
+
+**Development:**
+```bash
+# Terminal 1 - Backend
+npm run dev
+
+# Terminal 2 - Frontend
+cd frontend && npm run dev
+# Access at http://localhost:5173
+```
+
+**Production:**
+```bash
+npm run build && npm start
+# Access at http://localhost:3000/dashboard
+```
+
+### Dashboard Features
+
+**Four Main Views:**
+- 📊 **Overview** - System health, activity feed, key metrics
+- ✓ **Carrier Validation** - Success rates, response times, failure analysis
+- ⇄ **Load Matching** - Match rates, distance analytics, geographic distribution
+- $ **Business Impact** - Cost savings, ROI metrics, efficiency gains
+
+### Tech Stack
+
+**Frontend:**
+- React 18 + TypeScript
+- Vite (build tool)
+- TailwindCSS (styling)
+- Recharts (charts)
+
+**Development:**
+```bash
+cd frontend
+npm install          # Install dependencies
+npm run dev          # Dev server (port 5173)
+npm run build        # Production build
+```
+
+**Metrics API Endpoints:**
+- `GET /api/metrics/overview`
+- `GET /api/metrics/carrier-validation`
+- `GET /api/metrics/load-matching`
+
 ## API Endpoints
+
+### Analytics Metrics
+
+#### Get Overview Metrics
+```bash
+GET /api/metrics/overview
+```
+
+#### Get Carrier Validation Metrics
+```bash
+GET /api/metrics/carrier-validation
+```
+
+#### Get Load Matching Metrics
+```bash
+GET /api/metrics/load-matching
+```
 
 ### Health Check
 ```bash
@@ -344,15 +428,30 @@ curl http://localhost:3000/api/load/available
 
 ## Technology Stack
 
-- **Express.js**: Web framework
-- **TypeScript**: Type safety
-- **lowdb**: File-based JSON database
-- **axios**: HTTP client for FMCSA API
-- **express-validator**: Request validation
-- **geolib**: Distance calculations
-- **city-timezones**: Geocoding for US cities
-- **cors**: CORS handling
-- **dotenv**: Environment configuration
+### Backend
+- **Express.js**: Web framework for RESTful API
+- **TypeScript**: Type-safe development
+- **lowdb**: File-based JSON database for POC
+- **axios**: HTTP client for FMCSA API integration
+- **express-validator**: Request validation middleware
+- **geolib**: GPS distance calculations
+- **city-timezones**: US city geocoding
+- **cors**: Cross-origin resource sharing
+- **dotenv**: Environment configuration management
+
+### Frontend
+- **React 18**: Component-based UI framework
+- **TypeScript**: Type-safe development
+- **Vite**: Fast build tool with HMR
+- **TailwindCSS**: Utility-first CSS framework
+- **Recharts**: Declarative charting library
+- **Axios**: HTTP client for API calls
+
+### DevOps & Build
+- **Docker**: Containerization for consistent deployments
+- **Docker Compose**: Local development orchestration
+- **Node.js 16+**: Runtime environment
+- **npm**: Package management
 
 ## FMCSA Integration
 
@@ -428,28 +527,55 @@ This POC uses **lowdb** (file-based JSON database):
 
 ## Utility Scripts
 
-The `scripts/` directory contains helpful utilities:
+The `scripts/` directory contains helpful utilities for development and testing:
 
+### Database Management
 ```bash
-# Clear the database
+# Clear the database completely
 npm run clear-db
 
+# Clear database but preserve API keys
+node scripts/clear-db-preserve-keys.js
+```
+
+### Mock Data Loading
+```bash
 # Load mock carrier data for testing
 npm run load-mock-carriers
 
 # Load mock load data for testing
 npm run load-mock-data
+
+# Generate mock metrics data for dashboard
+node scripts/generate-mock-metrics.js
 ```
+
+### API Key Management
+```bash
+# Generate a new API key
+node scripts/generate-api-key.js
+
+# List all API keys
+node scripts/list-api-keys.js
+
+# Revoke an API key
+node scripts/revoke-api-key.js
+```
+
+### Deployment
+```bash
+# Deploy to AWS EC2
+bash scripts/deploy-to-ec2.sh
+
+# Update existing EC2 deployment
+bash scripts/update-ec2.sh
+```
+
+See [scripts/README.md](./scripts/README.md) for detailed documentation.
 
 ## Future Enhancements
 
-- [ ] Migrate to PostgreSQL/MongoDB for production-scale data storage
-- [ ] Add authentication and authorization
-- [ ] Implement comprehensive test suite
-- [ ] Add real-time notifications for load assignments
-- [ ] ML-based matching optimization learning from historical data
-- [ ] OSRM integration for real driving routes
-- [ ] HOS (Hours of Service) compliance checking
+- [ ] Add HTTPS compatibility
 
 ## Known Limitations
 
